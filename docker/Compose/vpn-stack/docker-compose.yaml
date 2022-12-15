@@ -11,8 +11,8 @@ services:
       - HTTPPROXY=on
       - SHADOWSOCKS=on
       - VPN_SERVICE_PROVIDER=private internet access
-      - OPENVPN_USER=
-      - OPENVPN_PASSWORD=
+      - OPENVPN_USER=p1768763
+      - OPENVPN_PASSWORD=dJzWU8jJcg
       - SERVER_REGIONS=Netherlands
     restart: on-failure:1
     ports:
