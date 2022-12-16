@@ -1,0 +1,142 @@
+# compose stack for NGINX proxy manager, Vaultwarden, and two database backends
+version: '3'
+services:
+  npm:
+    container_name: nginx-proxy
+    image: jc21/nginx-proxy-manager:latest
+    ports:
+      - "4880:80" # public http
+      - "4981:443" # public https
+      - "81:81" # admin port
+    environment:
+      - TZ=${time_zone}
+      - DB_MYSQL_HOST=db2
+      - DB_MYSQL_PORT=3306
+      - DB_MYSQL_USER=${mysql_user}
+      - DB_MYSQL_PASSWORD=${mysql_user_pass}
+      - DB_MYSQL_NAME=${mysql_db}
+      - DISABLE_IPV6=true
+    volumes:
+      - proxy:/data
+      - lets-encrypt:/etc/letsencrypt
+    networks:
+      - web_net
+      - db_net
+    restart: always
+    healthcheck:
+      test: ["CMD", "/bin/check-health"]
+      interval: 10s
+      timeout: 3s
+      start_period: 30s
+    depends_on:
+      - db2
+  bitwarden:
+    container_name: bitwarden
+    image: vaultwarden/server:alpine
+    ports:
+      - "5000:80"
+    environment:
+      - SIGNUPS_ALLOWED=true
+      - INVITATIONS_ALLOWED=true
+      - WEBSOCKET_ENABLED=true
+      - ADMIN_TOKEN=${ADMIN_TOKEN}
+      - DOMAIN=${vw_domain}
+      - DATABASE_URL=${db_url}
+      - YUBICO_CLIENT_ID=${yubi-client}
+      - YUBICO_SECRET_KEY=${yubi-secret}
+    volumes:
+      - bitwarden:/data
+    networks:
+      - web_net
+      - db_net
+    restart: always
+    depends_on:
+      - db1
+      - npm
+  dashboard:
+    container_name: heimdall
+    image: /linuxserver/heimdall:latest
+    ports:
+      - "90:80/tcp"
+      - "91:443/tcp"
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=${time_zone}
+    volumes:
+      - dash_vol:/config
+    networks:
+      - npm
+    restart: always
+    depends_on:
+      - npm
+  search:
+    container_name: searxng
+    image: searxng/searxng
+    ports:
+      - "9000:8080"
+    volumes:
+      - searx_vol:/etc/searxng
+    environment:
+      - INSTANCE_NAME=therontg.com
+  db1:
+    container_name: postgres
+    image: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_PASSWORD=${db_pw}
+      - POSTGRES_USER=vaultwarden
+    volumes:
+      - postgres_vol:/var/lib/postgresql/data
+    networks:
+      - db_net
+    restart: always
+  db2:
+    container_name: mariaDB
+    image: mariadb
+    ports:
+      - "3306:3306"
+    environment:
+      - PUID=value
+      - PGID=
+      - TZ=${time_zone}
+      - MYSQL_ROOT_PASSWORD= ${mysql_root}
+      - MYSQL_DATABASE=${mysql_db}
+      - MYSQL_USER=${mysql_user}
+      - MYSQL_PASSWORD=${mysql_user_pass}
+    volumes:
+      - mariaDB:/config
+    networks:
+      - db_net
+
+volumes:
+  proxy:
+    external: false
+  lets-encrypt:
+    external: false
+  bitwarden:
+    external: false
+  dash_vol:
+    external: false
+  searx_vol:
+    external: false
+  postgres_vol:
+    external: false
+  mariaDB:
+    external: false
+networks:
+  web_net:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.0.10.0/24
+          gateway: 172.0.10.1
+  db_net:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.0.20.0/24
+          gateway: 172.0.20.1

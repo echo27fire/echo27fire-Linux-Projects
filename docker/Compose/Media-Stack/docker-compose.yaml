@@ -6,13 +6,13 @@ services:
     ports:
       - "7878:7878"
     volumes:
-      - /mnt/user/Movies:/movies
-      - /mnt/user/Downloads:/data
-      - /mnt/user/appdata/arr-stack/radarr-data:/config:rw
+      - ${movies_path}:/movies
+      - ${downloads}:/data
+      - ${arr_path}/arr-stack/radarr-data:/config:rw
     environment:
-      - PUID=99
-      - PGID=100
-      - UMASK=022
+      - PUID=${PUID_var}
+      - PGID=${PGID_var}
+      - UMASK=${UMASK_var}
     restart: always
     networks:
       - arrnet  
@@ -22,14 +22,14 @@ services:
     ports:
       - "8989:8989"
     volumes:
-      - /mnt/user/TV/:/tv
-      - /mnt/user/Anime:/Anime
-      - /mnt/user/Downloads:/data
-      - /mnt/user/appdata/arr-stack/sonarr-data:/config:rw
+      - ${tv_path}:/tv
+      - ${anime_path}:/Anime
+      - ${downloads}:/data
+      - ${arr_path}/arr-stack/sonarr-data:/config:rw
     environment:
-      - PUID=99
-      - PGID=100
-      - UMASK=022
+      - PUID=${PUID_var}
+      - PGID=${PGID_var}
+      - UMASK=${UMASK_var}
     restart: always
     networks:
       - arrnet
@@ -39,13 +39,13 @@ services:
     ports:
       - "8686:8686"
     volumes:
-      - /mnt/user/Music:/media
-      - /mnt/user/Downloads:/data
-      - /mnt/user/appdata/arr-stack/lidarr-data:/config:rw
+      - ${music_path}:/media
+      - ${downloads}:/data
+      - ${arr_path}/arr-stack/lidarr-data:/config:rw
     environment:
-      - PUID=99
-      - PGID=100
-      - UMASK=022
+      - PUID=${PUID_var}
+      - PGID=${PGID_var}
+      - UMASK=${UMASK_var}
     restart: always
     networks:
       - arrnet
@@ -55,11 +55,11 @@ services:
     ports:
       - "5055:5055"
     volumes:
-      - /mnt/user/appdata/arr-stack/overseerr-data:/config:rw
+      - ${arr_path}/arr-stack/overseerr-data:/config:rw
     environment:
-      - PUID=99
-      - PGID=100
-      - UMASK=022
+      - PUID=${PUID_var}
+      - PGID=${PGID_var}
+      - UMASK=${UMASK_var}
     restart: always
     networks:
       - arrnet
@@ -69,11 +69,11 @@ services:
     ports:
       - "9696:9696"
     volumes:
-      - /mnt/user/appdata/arr-stack/prowlarr-data:/config:rw
+      - ${arr_path}/arr-stack/prowlarr-data:/config:rw
     environment:
-      - PUID=99
-      - PGID=100
-      - UMASK=022
+      - PUID=${PUID_var}
+      - PGID=${PGID_var}
+      - UMASK=${UMASK_var}
     restart: always
     networks:
       - arrnet
@@ -84,5 +84,5 @@ networks:
     ipam:
       driver: default
       config:
-        - subnet: 172.100.200.0/28
+        - subnet: 172.100.200.0/24
           gateway: 172.100.200.1
