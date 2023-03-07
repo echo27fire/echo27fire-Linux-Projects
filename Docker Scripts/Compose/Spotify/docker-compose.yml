@@ -1,0 +1,32 @@
+version: '3'
+services:
+  server:
+    image: yooooomi/your_spotify_server
+    restart: always
+    ports:
+      - 8080:8080
+    links:
+      - mongo
+    depends_on:
+      - mongo
+    environment:
+      - AIP_ENDPOINT=http://45.79.128.218:8080
+      - CLIENT_ENDPOINT=http://45.79.128.218:3000
+      - SPOTIFY_PUBLIC=c38a157e9a824806922c739720c391f4
+      - SPOTIFY_SECRET=fab6308e33d34ecf9455339f72cf9404
+      - CORS=http://45.79.128.218:3000,http://45.79.128.218:3001
+  mongo:
+    container_name: mongo
+    image: mongo:4.4.8
+    volumes:
+      - spot_mongo:/data/db
+  web:
+    image: yooooomi/your_spotify_client
+    restart: always
+    ports:
+      - 3000:3000
+    environment:
+      - API_ENDPOINT=http://45.79.128.218:8080
+
+volumes:
+  spot_mongo:
