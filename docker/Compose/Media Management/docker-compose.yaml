@@ -1,0 +1,63 @@
+version: '3'
+services:
+  radarr:
+    image: linuxserver/radarr:4.3.2
+    container_name: radarr
+    ports:
+      - 7878:7878
+    volumes:
+      - $PATH_TO_NFS/movies:/movies
+      - $PATH_TO_NFS/downloads:/data
+      - radarr-data:/config
+      - /etc/localtime:/etc/localtime:ro
+    environment:
+      - PUID=$PUID
+      - PGID=$PGID
+      - UMASK=$UMASK
+    restart: always
+  sonarr:
+    image: linuxserver/sonarr:3.0.9
+    container_name: sonarr
+    ports:
+      - 8989:8989
+    volumes:
+      - $PATH_TO_NFS/tv:/tv
+      - $PATH_TO_NFS/anime:/anime
+      - $PATH_TO_NFS/downloads:/data
+      - sonarr-data:/config
+      - /etc/localtime:/etc/localtime:ro
+    environment:
+      - PUID=$PUID
+      - PGID=$PGID
+      - UMASK=$UMASK
+  lidarr:
+    image: linuxserver/lidarr:1.1.4-nightly
+    container_name: lidarr
+    ports:
+      - 8686:8686
+    volumes:
+      - $PATH_TO_NFS/music:/media
+      - $PATH_TO_NFS/downloads:/data
+      - lidarr-data:/config
+      - /etc/localtime:/etc/localtime:ro
+    environment:
+      - PUID=$PUID
+      - PGID=$PGID
+      - UMASK=$UMASK
+  prowlarr:
+    image: linuxserver/prowlarr:nightly
+    container_name: prowlarr
+    ports:
+      - 9696:9696
+    volumes:
+      - prowlarr-data:/config
+      - /etc/localtime:/etc/localtime:ro
+    environment:
+      - PUID=$PUID
+      - PGID=$PGID
+      - UMASK=$UMASK
+volumes:
+  radarr-data:
+  sonarr-data:
+  lidarr-data:
+  prowlarr-data:
