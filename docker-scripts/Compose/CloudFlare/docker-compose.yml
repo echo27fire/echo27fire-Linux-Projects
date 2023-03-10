@@ -4,7 +4,7 @@ services:
     container_name: ddns
     image: oznu/cloudflare-ddns
     environment:
-      - email=echo27fire@gmail.com
+      - email=
       - API_KEY=
       - PROXIED=false
       - HOST_CONTAINERNAME=ddns
@@ -14,7 +14,7 @@ services:
       - S6_BEHAVIOR_IF_STAGE2_FAILS=2
       - CF_API=https://api.cloudflare.com/client/v4
       - CRON='*/5	*	*	*	*
-      - TZ=America/New_York
+      - TZ=
     restart: always
   tunnel:
     container_name: argo

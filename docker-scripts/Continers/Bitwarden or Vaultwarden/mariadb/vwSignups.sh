@@ -9,6 +9,6 @@ docker run -d --name vaultwarden \
  -e INVITATIONS_ALLOWED \
  -e WEBSOCKET_ENABLED=true \
  -e ADMIN_TOKEN=$KEY \
- -e DATABASE_URL=mysql://vaultwarden:"PASSWORD"@DJKx@23.239.16.226/vaultwarden \
+ -e DATABASE_URL= \
  vaultwarden/server:alpine
 

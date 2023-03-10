@@ -25,7 +25,7 @@ services:
     volumes:
       - searx_data:/etc/searxng
     environment:
-      - INSTANCE_NAME=search.therontg.com
+      - INSTANCE_NAME=
 
 volumes:
   heimdall:

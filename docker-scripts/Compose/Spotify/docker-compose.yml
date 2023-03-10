@@ -10,11 +10,11 @@ services:
     depends_on:
       - mongo
     environment:
-      - AIP_ENDPOINT=http://45.79.128.218:8080
-      - CLIENT_ENDPOINT=http://45.79.128.218:3000
-      - SPOTIFY_PUBLIC=c38a157e9a824806922c739720c391f4
-      - SPOTIFY_SECRET=fab6308e33d34ecf9455339f72cf9404
-      - CORS=http://45.79.128.218:3000,http://45.79.128.218:3001
+      - AIP_ENDPOINT=
+      - CLIENT_ENDPOINT=
+      - SPOTIFY_PUBLIC=
+      - SPOTIFY_SECRET=
+      - CORS=
   mongo:
     container_name: mongo
     image: mongo:4.4.8
@@ -26,7 +26,7 @@ services:
     ports:
       - 3000:3000
     environment:
-      - API_ENDPOINT=http://45.79.128.218:8080
+      - API_ENDPOINT=
 
 volumes:
   spot_mongo:

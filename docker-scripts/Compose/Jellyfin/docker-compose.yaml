@@ -11,7 +11,7 @@ services:
     environment:
       - PUID=1002
       - PGID=1002
-      - NVIDIA_VISIBLE_DEVICES=GPU-56fb6e64-9460-3839-0f33-cd9aea2eb695
+      - NVIDIA_VISIBLE_DEVICES=
     volumes:
       - /mnt/user/PlexData/jellyfin:/config
       - /mnt/user/TV:/data/tv

@@ -17,7 +17,7 @@ services:
       - 10000:10000
       - 53:53
     environment:
-      - GUI_PASSWORD=rebuilt-closable-justifier
+      - GUI_PASSWORD=
       - IPV6=disable
     volumes:
       - bind:/etc/bind
@@ -46,7 +46,7 @@ services:
     volumes:
       - searx_data:/etc/searxng
     environment:
-      - INSTANCE_NAME=search.therontg.com
+      - INSTANCE_NAME=
 volumes:
   ngp-data:
     external: false

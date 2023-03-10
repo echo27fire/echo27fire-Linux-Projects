@@ -8,12 +8,12 @@ services:
     volumes:
       - /mnt/user/appdata/vpn:/gluetun
     environment:
-      - HTTPPROXY=on
-      - SHADOWSOCKS=on
-      - VPN_SERVICE_PROVIDER=private internet access
-      - OPENVPN_USER=p1768763
-      - OPENVPN_PASSWORD=dJzWU8jJcg
-      - SERVER_REGIONS=Netherlands
+      - HTTPPROXY=
+      - SHADOWSOCKS=
+      - VPN_SERVICE_PROVIDER=
+      - OPENVPN_USER=
+      - OPENVPN_PASSWORD=
+      - SERVER_REGIONS=
     restart: on-failure:1
     ports:
       - "911:8888/tcp" # http proxy

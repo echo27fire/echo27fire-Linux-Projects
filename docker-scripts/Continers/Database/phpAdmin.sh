@@ -1,8 +1,8 @@
 #!/bin/bash
 docker run -d --name dbadmin  \
  -e MYSQL_ROOT_PASSWORD=test \
- -e MYSQL_USER=tgoodspeed \
- -e MYSQL_PASSWORD=tgoodspeed\
+ -e MYSQL_USER= \
+ -e MYSQL_PASSWORD=\
  -e PMA_HOST=mariadb \
  -e PMA_PORT=3306 \
  -p 8080:80 \
